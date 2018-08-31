@@ -1,30 +1,27 @@
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cor: white,
-      contador: 0
-    };
-  }
+import React, { Component } from 'react';
+// import logo from './logo.svg';
 
-  trocarCor = (e) => {
-    let contador = this.state.contador;
-    let cor = (++contador % 2) == 0 ? 'red' : 'blue';
-    this.setState({
-      cor: cor,
-      contador: contador
-    });
-  }
+import './App.css';
+import Header from './components/Header';
+import NewUser from './components/NewUser';
+import Toast from './components/Toast';
 
+class App extends Component {
   render() {
-    const estilo = {
-      padding: 10,
-      background: this.state.cor,
-    }
     return (
-      <h1 style={estilo} onClick={this.trocarCor}>
-        {this.props.texto}
-      </h1>
+      <div>
+        <Header />
+        <NewUser 
+          onSubmit={user => {
+            let gender = user.gender === 'm' ? 'o' : 'a';
+            this.refs.toast.success(`Seja bem vind${gender} ${user.name}!`)
+          }}
+          error={msg => this.refs.toast.error(msg)} 
+        />
+        <Toast ref="toast" />
+      </div>
     );
   }
 }
+
+export default App;
